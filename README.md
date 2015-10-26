@@ -1,0 +1,2 @@
+# PicSwap
+This repo contains a client for a simple filesharing service that will apply AES-128 encryption in CBC mode to all files it sends. The server that is hosted on my machine will never see raw files. It will only receive and distribute the encrypted files clients running on users' machines send and the public encryption keys for the users; each user only receives public keys of their "friends").
