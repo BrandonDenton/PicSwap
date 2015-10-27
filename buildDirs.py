@@ -80,6 +80,8 @@ def makeGNUdirs():
         
     # Check for the user's account info and activity log.
     os.chdir("~/picSwap_data/account")
+    ## Have the client write the following info to the server ##
+    ## instead once you get sockets working.                  ##
     try:
         usr = open("usr.INFO", 'r')
     except FileNotFoundError:
