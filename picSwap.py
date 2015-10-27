@@ -60,6 +60,8 @@ elif(Platform == "linux" or Platform == "darwin"):
 ## Now we must query the user for their username and password. ##
 name = input('username: ')
 pwd = getpass.getpass('password: ')
+## THIS IS JUST A PLACEHOLDER. Have the client query the       ##
+## server for this verification after you get sockets working. ##
 if(Platform == "win32"):
     os.chdir("C:/picSwap_data/account")
 	usr = open()
