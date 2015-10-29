@@ -73,7 +73,7 @@ if(Platform == "win32"):
 ## files for the client, it's time to start allowing the    ##
 ## user to send files to his or her friends. SOCKET TIME!!! ##
 host = 'myserver'    # need my broadcasting address here
-port = 24601    # This, like my server hostname, should hopefully never change.
+port = 80    # This, like my server hostname, should hopefully never change.
 clients = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 clients.connect((host, port))
 
