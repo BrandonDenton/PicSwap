@@ -36,6 +36,7 @@ def send(fname=''):
     ''' This function sends a specified file via the socket already
     opened to my server in 2K chunks. Don't make the server handle 
     files larger than 5 GB.'''
+    os.chdir("C:\picSwap_data")
     if(fname == ''):
     	fname = raw_input('What file would you like me to send? ')
     while(fname != "none" or fname != "I'm done." or fname != "done"):
@@ -90,6 +91,6 @@ while True:
             break    # The user is done. Close the client application.
     # Easter eggs lol #
     if(raw_input('What would you like to do? ') == 'Afghanistan'):
-    	send("A_weapon_to_surpass_Metal_Gear.txt")
+    	send("C:\picSwap_data\account\A_weapon_to_surpass_Metal_Gear.txt")
     else:
         print("I don't understand. Please pick something else.")
