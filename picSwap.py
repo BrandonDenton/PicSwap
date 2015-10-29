@@ -32,11 +32,12 @@ def msgUpdate():
     print('idek')
     
 
-def send():
+def send(fname=''):
     ''' This function sends a specified file via the socket already
     opened to my server in 2K chunks. Don't make the server handle 
     files larger than 5 GB.'''
-    fname = input('What file would you like me to send? ')
+    if(fname == ''):
+    	fname = raw_input('What file would you like me to send? ')
     while(fname != "none" or fname != "I'm done." or fname != "done"):
         fd = open(fname, 'r')
         sinfo = os.stat(fname)                # Put a cap on filesize so the server 
@@ -46,6 +47,7 @@ def send():
         while True:    # Send the specified file via the socket.
             data = clients.send(2048)    # buffering out 1K at a time
             if not data: break
+        fname = raw_input('What file would you like me to send? ')
 
 
 ## If the picSwap client doesn't have its own directory and ##
@@ -58,7 +60,7 @@ elif(Platform == "linux" or Platform == "darwin"):
     bd.makeGNUdirs()
 
 ## Now we must query the user for their username and password. ##
-name = input('username: ')
+name = raw_input('username: ')
 pwd = getpass.getpass('password: ')
 ## THIS IS JUST A PLACEHOLDER. Have the client query the       ##
 ## server for this verification after you get sockets working. ##
@@ -79,12 +81,15 @@ msgUpdate()    # Always check for new files from friends at least once each time
 print("---------------------\n----- Main Menu -----\n---------------------\n")
 print("Type the following commands:\n  * send (Send a file.)\n  * update (Get files other users sent to you.)\n  * quit (Exit the program.)\n\n")
 while True:
-    if(input('What would you like to do? ') == 'send'):
+    if(raw_input('What would you like to do? ') == 'send'):
         send()
-    if(input('What would you like to do? ') == 'update'):
+    if(raw_input('What would you like to do? ') == 'update'):
         msgUpdate()
-    if(input('What would you like to do? ') == 'quit'):
-        if(input('Are you sure? y/n ') == 'y' or input('Are you sure? y/n') == 'yes'):
+    if(raw_input('What would you like to do? ') == 'quit'):
+        if(raw_input('Are you sure? y/n ') == 'y' or raw_input('Are you sure? y/n') == 'yes'):
             break    # The user is done. Close the client application.
+    # Easter eggs lol #
+    if(raw_input('What would you like to do? ') == 'Afghanistan'):
+    	send("A_weapon_to_surpass_Metal_Gear.txt")
     else:
         print("I don't understand. Please pick something else.")
