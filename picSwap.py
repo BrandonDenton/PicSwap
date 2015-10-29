@@ -43,8 +43,12 @@ def send():
     fname = input('What file would you like me to send? ')
     while(fname != "none" or fname != "I'm done." or fname != "done"):
         fd = open(fname, 'r')
+        sinfo = os.stat(fname)                # Put a cap on filesize so the server 
+        if(stinfo.st_size < (1024^3)*5):      # doesn't fill quickly/get congested.
+            print("File " + fname + " is too big. Please send something 5 GB or smaller.\n")
+            break
         while True:    # Send the specified file via the socket.
-            data = clients.send(1024)    # buffering out 1K at a time
+            data = clients.send(2048)    # buffering out 1K at a time
             if not data: break
 
 
