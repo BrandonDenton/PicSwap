@@ -24,22 +24,18 @@ import getpass    # We want to suppress user input of their password.
 import buildDirs as bd    # helper module that build's client's directory system
 
 def msgUpdate():
-    '''
-    This function, which executes at least once at runtime and 
-    also upon user request, queries the server for files that
-    the user's friends have delivered to the server to be sent
-    to the user. If any exist in the user's directory on the 
-    server, the server sends each file there to the user via
-    the open socket.
-    '''
+    ''' This function, which executes at least once at runtime and 
+    also upon user request, queries the server for files that the 
+    user's friends have delivered to the server to be sent to the 
+    user. If any exist in the user's directory on the server, the 
+    server sends each file there to the user via the open socket. '''
     print('idek')
     
 
 def send():
-    '''
-    This function sends a specified file via the socket already
-    opened to my server in 1K chunks.
-    '''
+    ''' This function sends a specified file via the socket already
+    opened to my server in 2K chunks. Don't make the server handle 
+    files larger than 5 GB.'''
     fname = input('What file would you like me to send? ')
     while(fname != "none" or fname != "I'm done." or fname != "done"):
         fd = open(fname, 'r')
@@ -80,6 +76,8 @@ clients.connect((host, port))
 
 msgUpdate()    # Always check for new files from friends at least once each time we run the client.
 
+print("---------------------\n----- Main Menu -----\n---------------------\n")
+print("Type the following commands:\n  * send (Send a file.)\n  * update (Get files other users sent to you.)\n  * quit (Exit the program.)\n\n")
 while True:
     if(input('What would you like to do? ') == 'send'):
         send()
@@ -89,4 +87,4 @@ while True:
         if(input('Are you sure? y/n ') == 'y' or input('Are you sure? y/n') == 'yes'):
             break    # The user is done. Close the client application.
     else:
-        print("I don't understand. Please pick something else.")    
+        print("I don't understand. Please pick something else.")
