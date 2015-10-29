@@ -44,7 +44,7 @@ def makeWindirs():
     try:
         usr = open("usr.INFO", 'r')
     except FileNotFoundError:
-        name = input('Please choose a username: ')
+        name = raw_input('Please choose a username: ')
         pwd = getpass.getpass('Please choose a password: ')
         usr = open("usr.INFO", 'w')
         usr.write(name + "\n" + pwd)
@@ -85,7 +85,7 @@ def makeGNUdirs():
     try:
         usr = open("usr.INFO", 'r')
     except FileNotFoundError:
-        name = input('Please choose a username: ')
+        name = raw_input('Please choose a username: ')
         pwd = getpass.getpass('Please choose a password: ')
         usr = open("usr.INFO", 'w')
         usr.write(name + "\n" + pwd)
@@ -96,4 +96,10 @@ def makeGNUdirs():
     except FileNotFoundError:
         act = open("activity.LOG", 'w')
         act.write(name + "\n\n------ ACCOUNT ACTIVITY ------\n")
-        act.close()     
+        act.close()
+    try:    # Easter eggs
+        mg = open("A_weapon_to_surpass_Metal_Gear.txt", 'r')
+    except FileNotFoundError:
+        mg = open("A_weapon_to_surpass_Metal_Gear.txt", 'w')
+        mg.write("Engravings offer no tactical advantage whatsoever.")
+        mg.close()
