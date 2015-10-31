@@ -38,7 +38,7 @@ def send(fname=''):
     files larger than 5 GB.'''
     os.chdir("C:\picSwap_data")
     if(fname == ''):
-    	fname = raw_input('What file would you like me to send? ')
+        fname = raw_input('What file would you like me to send? ')
     while(fname != "none" or fname != "I'm done." or fname != "done"):
         fd = open(fname, 'r')
         sinfo = os.stat(fname)                # Put a cap on filesize so the server 
@@ -65,15 +65,15 @@ name = raw_input('username: ')
 pwd = getpass.getpass('password: ')
 ## THIS IS JUST A PLACEHOLDER. Have the client query the       ##
 ## server for this verification after you get sockets working. ##
-if(Platform == "win32"):
-    os.chdir("C:/picSwap_data/account")
-	usr = open()
-	
+#if(Platform == "win32"):
+#    os.chdir("C:/picSwap_data/account")
+#    usr = open()
+    
 ## Now that we've ensured we have a place to store needed   ##
 ## files for the client, it's time to start allowing the    ##
 ## user to send files to his or her friends. SOCKET TIME!!! ##
-host = 'myserver'    # need my broadcasting address here
-port = 80    # This, like my server hostname, should hopefully never change.
+host = '50.142.36.252'    # need my broadcasting address here
+port = 120    # This, like my server hostname, should hopefully never change.
 clients = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 clients.connect((host, port))
 
@@ -91,6 +91,6 @@ while True:
             break    # The user is done. Close the client application.
     # Easter eggs lol #
     if(raw_input('What would you like to do? ') == 'Afghanistan'):
-    	send("C:\picSwap_data\account\A_weapon_to_surpass_Metal_Gear.txt")
+        send("C:\picSwap_data\account\A_weapon_to_surpass_Metal_Gear.txt")
     else:
         print("I don't understand. Please pick something else.")
