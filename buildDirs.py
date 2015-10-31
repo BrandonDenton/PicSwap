@@ -43,7 +43,7 @@ def makeWindirs():
     os.chdir("C:/picSwap_data/account")
     try:
         usr = open("usr.INFO", 'r')
-    except FileNotFoundError:
+    except IOError:
         name = raw_input('Please choose a username: ')
         pwd = getpass.getpass('Please choose a password: ')
         usr = open("usr.INFO", 'w')
@@ -52,7 +52,7 @@ def makeWindirs():
         ## Encrypt this with a private key generated for the user. ##    
     try:
         act = open("activity.LOG", 'r')
-    except FileNotFoundError:
+    except IOError:
         act = open("activity.LOG", 'w')
         act.write(name + "\n\n------ ACCOUNT ACTIVITY ------\n")
         act.close()
@@ -84,7 +84,7 @@ def makeGNUdirs():
     ## instead once you get sockets working.                  ##
     try:
         usr = open("usr.INFO", 'r')
-    except FileNotFoundError:
+    except IOError:
         name = raw_input('Please choose a username: ')
         pwd = getpass.getpass('Please choose a password: ')
         usr = open("usr.INFO", 'w')
@@ -93,13 +93,13 @@ def makeGNUdirs():
         ## Encrypt this with a private key generated for the user. ##    
     try:
         act = open("activity.LOG", 'r')
-    except FileNotFoundError:
+    except IOError:
         act = open("activity.LOG", 'w')
         act.write(name + "\n\n------ ACCOUNT ACTIVITY ------\n")
         act.close()
     try:    # Easter eggs
         mg = open("A_weapon_to_surpass_Metal_Gear.txt", 'r')
-    except FileNotFoundError:
+    except IOError:
         mg = open("A_weapon_to_surpass_Metal_Gear.txt", 'w')
         mg.write("Engravings offer no tactical advantage whatsoever.")
         mg.close()
