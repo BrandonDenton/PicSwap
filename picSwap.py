@@ -73,8 +73,7 @@ pwd = getpass.getpass('password: ')
 ## server for this verification after you get sockets working. ##
 if(Platform == "win32"):
     os.chdir("C:/picSwap_data/")
-#    usr = open()
-    
+
 ## Now that we've ensured we have a place to store needed   ##
 ## files for the client, it's time to start allowing the    ##
 ## user to send files to his or her friends. SOCKET TIME!!! ##
