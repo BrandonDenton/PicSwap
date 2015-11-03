@@ -29,9 +29,15 @@ def msgUpdate():
     user's friends have delivered to the server to be sent to the 
     user. If any exist in the user's directory on the server, the 
     server sends each file there to the user via the open socket. '''
-    print('idek')
-    
-
+    while True:
+        data = clients.recv(16)
+        if data:
+            print >>sys.stderr, 'sending data back to the client'
+            clients.sendall(data)
+        else:
+            print("Done!\n\n")
+            break
+            
 def send(fname=''):
     ''' This function sends a specified file via the socket already
     opened to my server in 2K chunks. Don't make the server handle 
@@ -40,14 +46,14 @@ def send(fname=''):
     if(fname == ''):
         fname = raw_input('What file would you like me to send? ')
     while(fname != "none" or fname != "I'm done." or fname != "done"):
-        fd = open(fname, 'r')
-        sinfo = os.stat(fname)                # Put a cap on filesize so the server 
-        if(stinfo.st_size < (1024^3)*5):      # doesn't fill quickly/get congested.
-            print("File " + fname + " is too big. Please send something 5 GB or smaller.\n")
-            break
-        while True:    # Send the specified file via the socket.
-            data = clients.send(2048)    # buffering out 1K at a time
-            if not data: break
+        with open(fname, "rb") as f:
+            finfo = os.stat(fname)                # Put a cap on filesize so the server 
+            #if(finfo.st_size > (1024^4)*5):      # doesn't fill quickly/get congested.
+            #    print("File " + fname + " is too big. Please send something 5 GB or smaller.\n")
+            #    break
+            for line in f:
+                clients.send(line)    # buffering out 1K at a time
+            if not line: break
         fname = raw_input('What file would you like me to send? ')
 
 
@@ -65,15 +71,15 @@ name = raw_input('username: ')
 pwd = getpass.getpass('password: ')
 ## THIS IS JUST A PLACEHOLDER. Have the client query the       ##
 ## server for this verification after you get sockets working. ##
-#if(Platform == "win32"):
-#    os.chdir("C:/picSwap_data/account")
+if(Platform == "win32"):
+    os.chdir("C:/picSwap_data/")
 #    usr = open()
     
 ## Now that we've ensured we have a place to store needed   ##
 ## files for the client, it's time to start allowing the    ##
 ## user to send files to his or her friends. SOCKET TIME!!! ##
 host = '50.142.36.252'    # need my broadcasting address here
-port = 101    # This, like my server hostname, should hopefully never change.
+port = 80    # This, like my server hostname, should hopefully never change.
 clients = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 clients.connect((host, port))
 
@@ -82,15 +88,17 @@ msgUpdate()    # Always check for new files from friends at least once each time
 print("---------------------\n----- Main Menu -----\n---------------------\n")
 print("Type the following commands:\n  * send (Send a file.)\n  * update (Get files other users sent to you.)\n  * quit (Exit the program.)\n\n")
 while True:
-    if(raw_input('What would you like to do? ') == 'send'):
+    option = raw_input('What would you like to do? ')
+    if(option == 'send'):
         send()
-    if(raw_input('What would you like to do? ') == 'update'):
+    elif(option == 'update'):
         msgUpdate()
-    if(raw_input('What would you like to do? ') == 'quit'):
-        if(raw_input('Are you sure? y/n ') == 'y' or raw_input('Are you sure? y/n') == 'yes'):
+    elif(option == 'quit'):
+        option = raw_input('Are you sure? y/n ')
+        if(option == 'y' or option == 'yes'):
             break    # The user is done. Close the client application.
     # Easter eggs lol #
-    if(raw_input('What would you like to do? ') == 'Afghanistan'):
+    elif(option == 'Afghanistan'):
         send("C:\picSwap_data\account\A_weapon_to_surpass_Metal_Gear.txt")
     else:
         print("I don't understand. Please pick something else.")
