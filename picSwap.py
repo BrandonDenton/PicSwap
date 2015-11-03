@@ -73,7 +73,7 @@ pwd = getpass.getpass('password: ')
 ## files for the client, it's time to start allowing the    ##
 ## user to send files to his or her friends. SOCKET TIME!!! ##
 host = '50.142.36.252'    # need my broadcasting address here
-port = 120    # This, like my server hostname, should hopefully never change.
+port = 101    # This, like my server hostname, should hopefully never change.
 clients = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 clients.connect((host, port))
 
