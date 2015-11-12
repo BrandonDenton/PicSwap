@@ -26,8 +26,8 @@ def serverConnect():
     user is asked to exit the program. Otherwise, the 
     function returns the socket object for the connection. '''
     print("Connecting to server...")
-    host = 'picswap.ddns.net'    # need my broadcasting address here
-    port = 24601    # This, like my server hostname, should hopefully never change.
+    host = "hydra12.eecs.utk.edu"    # Just host it on Hydra because your router hates every port you want to use.
+    port = 24601    # This, like my server hostname, should never change.
     clientr = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         clientr.connect((host, port))
