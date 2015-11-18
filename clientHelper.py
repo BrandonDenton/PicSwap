@@ -17,7 +17,7 @@
 import os
 import socket
 from sys import platform as Platform
-from msvcrt import getch    # Press any key to exit.
+#from msvcrt import getch    # Press any key to exit.
 
 def serverConnect():
     ''' This function creates a socket for the client on a  
@@ -27,14 +27,13 @@ def serverConnect():
     function returns the socket object for the connection. '''
     print("Connecting to server...")
     host = "hydra12.eecs.utk.edu"    # Just host it on Hydra because your router hates every port you want to use.
-    port = 24601    # This, like my server hostname, should never change.
+    port = 24602    # This, like my server hostname, should never change.
     clientr = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         clientr.connect((host, port))
-        return clientr    # client app will need this connection for file transfer
     except:
         print("Unable to connect to server. Sorry for the inconvenience!\nPress any key to exit.\n")
-        exout = getch()
+        #exout = getch()
         exit(1)
 
 def msgUpdate(clientr):
@@ -43,11 +42,13 @@ def msgUpdate(clientr):
     user's friends have delivered to the server to be sent to the 
     user. If any exist in the user's directory on the server, the 
     server sends each file there to the user via the open socket. '''
+    host = "hydra12.eecs.utk.edu"    # Just host it on Hydra because your router hates every port you want to use.
     print("Looking for new messages...")
+    port = 24602    # This, like my server hostname, should never change.
     try:
-        data = clientr.recv(2048)
-        print(data)
-    except socket.error:    # No new messages or server timeout
+        clientu = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        clientu.connect((host, port))
+    except:    # No new messages or server timeout
         print("You're up to date!\n")
     print("Done!\n\n")
             
@@ -55,6 +56,13 @@ def send(fname=''):
     ''' This function sends a specified file via the socket already
     opened to my server in 2K chunks. Don't make the server handle 
     files larger than 5 GB.'''
+    port = 42069    # This, like my server hostname, should never change.
+    clients = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        clients.connect((host, port))
+        return clientr    # client app will need this connection for file transfer
+    except:
+        print("Unable to co
     if(fname == ''):
         fname = raw_input('What file would you like me to send? ')
     while(fname != 'none'):
