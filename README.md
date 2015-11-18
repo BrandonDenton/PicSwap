@@ -2,12 +2,9 @@
   This repo contains a component of a final project for the Introduction to Computer Security course at the University of Tennessee, namely, a client for a simple filesharing service that will apply AES-128 encryption in CBC mode to all files it sends. The server that is hosted on my machine will never see raw files. It will only receive and distribute the encrypted files clients running on users' machines send and the public encryption keys for the users; each user only receives public keys of their "friends"). If you're seeing this page and have access to a Hydra machine on UTK campus, you are more than welcome to download the client and test it for yourself.
   
 # Dependencies
-  Python 2.7 or later
-  picSwap.py
-  clientHelper.py
-  buildDirs.py
+  Python 2.7 or later, picSwap.py, clientHelper.py, buildDirs.py
   
-  Download all three files and save them to the same directory (regardless of where you save them, PicSwap will put its 
+  Download all three files and save them to the same directory (regardless of where you save them, PicSwap will put its necessary client-side stuff in its own folder in your home directory). Right now, I'm doing a stress test of the server before I actually have it handling files so I'm just looking for confirmation that all the ports for my services are functioning. Feel free to email me at oinkerbob1@gmail.com and tell me how your client can/cannot connect to the server. I may set up a poll on my public UTK EECS webpage soon, though that's not guaranteed.
 
 # Please read this! :)
   This is a student project meant to highlight the encryption implementation that ought to be employed by the client of the popular image and video sharing service Snapchat. As such, my development priority is ensuring security of the temporary files stored by the client that are sent to it by other users. While the file transfer service will be functional soon, the service itself is not the focus of the project. Though it will be running on a machine in the Hydra lab, the server may be slow to respond in some cases. Experiences with the service may vary. 
