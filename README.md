@@ -1,5 +1,13 @@
 # PicSwap Client and Supplementary Files
-  This repo contains a component of a final project for the Introduction to Computer Security course at the University of Tennessee, namely, a client for a simple filesharing service that will apply AES-128 encryption in CBC mode to all files it sends. The server that is hosted on my machine will never see raw files. It will only receive and distribute the encrypted files clients running on users' machines send and the public encryption keys for the users; each user only receives public keys of their "friends"). I will update this repo once the server is able to communicate with user clients with information on how to install the client, if you would like to test it for yourself.
+  This repo contains a component of a final project for the Introduction to Computer Security course at the University of Tennessee, namely, a client for a simple filesharing service that will apply AES-128 encryption in CBC mode to all files it sends. The server that is hosted on my machine will never see raw files. It will only receive and distribute the encrypted files clients running on users' machines send and the public encryption keys for the users; each user only receives public keys of their "friends"). If you're seeing this page and have access to a Hydra machine on UTK campus, you are more than welcome to download the client and test it for yourself.
+  
+# Dependencies
+  Python 2.7 or later
+  picSwap.py
+  clientHelper.py
+  buildDirs.py
+  
+  Download all three files and save them to the same directory (regardless of where you save them, PicSwap will put its 
 
 # Please read this! :)
   This is a student project meant to highlight the encryption implementation that ought to be employed by the client of the popular image and video sharing service Snapchat. As such, my development priority is ensuring security of the temporary files stored by the client that are sent to it by other users. While the file transfer service will be functional soon, the service itself is not the focus of the project. Though it will be running on a machine in the Hydra lab, the server may be slow to respond in some cases. Experiences with the service may vary. 
