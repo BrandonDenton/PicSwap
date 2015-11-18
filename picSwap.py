@@ -49,7 +49,7 @@ print("Checking directories...")
 ## Now that we've ensured we have a place to store needed   ##
 ## files for the client, it's time to set up a socket so    ##
 ## the client can receive files from my server.             ##
-clientr = ch.serverConnect()
+ch.serverConnect()
     
 ## IMPLEMENTATION ISSUE WITH UPDATER, LOOK UP I/O REQUIREMENTS!!! ##
 #ch.msgUpdate(clients)    # Always check for new files from friends at least once each time we run the client.
@@ -61,7 +61,7 @@ while True:
     if(option == 'send'):
         ch.send()
     elif(option == 'update'):
-        ch.msgUpdate(clientr)
+        ch.msgUpdate()
     elif(option == 'quit'):
         option = raw_input('Are you sure? y/n ')
         if(option == 'y' or option == 'yes'):
