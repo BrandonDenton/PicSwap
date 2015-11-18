@@ -4,6 +4,8 @@
 # Dependencies
   Python 2.7 or later, picSwap.py, clientHelper.py, buildDirs.py
   
+  NOTE: Currently the client and server DO NOT transfer files. Right now, I'm only performing a server stress test.
+  
   Download all three files and save them to the same directory (regardless of where you save them, PicSwap will put its necessary client-side stuff in its own folder in your home directory). Right now, I'm doing a stress test of the server before I actually have it handling files so I'm just looking for confirmation that all the ports for my services are functioning. Feel free to email me at oinkerbob1@gmail.com and tell me how your client can/cannot connect to the server. I may set up a poll on my public UTK EECS webpage soon, though that's not guaranteed.
 
 # Please read this! :)
