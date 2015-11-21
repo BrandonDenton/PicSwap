@@ -62,7 +62,7 @@ def send(fname=''):
         clients.connect((host, port))
         return clientr    # client app will need this connection for file transfer
     except:
-        print("Unable to co
+        print("Unable to connect to server")
     if(fname == ''):
         fname = raw_input('What file would you like me to send? ')
     while(fname != 'none'):
