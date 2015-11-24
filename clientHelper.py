@@ -26,8 +26,8 @@ def serverConnect():
     user is asked to exit the program. Otherwise, the 
     function returns the socket object for the connection. '''
     print("Connecting to server...")
-    host = "hydra12.eecs.utk.edu"    # Just host it on Hydra because your router hates every port you want to use.
-    port = 24602    # This, like my server hostname, should never change.
+    host = "50.142.36.252"    # Just host it on Hydra because your router hates every port you want to use.
+    port = 24601    # This, like my server hostname, should never change.
     clientr = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
         clientr.connect((host, port))
@@ -42,7 +42,7 @@ def msgUpdate(clientr):
     user's friends have delivered to the server to be sent to the 
     user. If any exist in the user's directory on the server, the 
     server sends each file there to the user via the open socket. '''
-    host = "hydra12.eecs.utk.edu"    # Just host it on Hydra because your router hates every port you want to use.
+    host = "50.142.36.252"    # Just host it on Hydra because your router hates every port you want to use.
     print("Looking for new messages...")
     port = 24602    # This, like my server hostname, should never change.
     try:
@@ -56,6 +56,7 @@ def send(fname=''):
     ''' This function sends a specified file via the socket already
     opened to my server in 2K chunks. Don't make the server handle 
     files larger than 5 GB.'''
+    host = "50.142.36.252"
     port = 42069    # This, like my server hostname, should never change.
     clients = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
@@ -68,7 +69,7 @@ def send(fname=''):
     while(fname != 'none'):
         print os.getcwd()
         with open(fname, "rb") as f:
-            finfo = os.stat(fname)                # Put a cap on filesize so the server 
+            # finfo = os.stat(fname)                # Put a cap on filesize so the server 
             #if(finfo.st_size > (1024^4)*5):      # doesn't fill quickly/get congested.
             #    print("File " + fname + " is too big. Please send something 5 GB or smaller.\n")
             #    break
