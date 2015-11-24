@@ -36,7 +36,7 @@ def serverConnect():
         #exout = getch()
         exit(1)
 
-def msgUpdate(clientr):
+def msgUpdate():
     ''' This function, which executes at least once at runtime and 
     also upon user request, queries the server for files that the 
     user's friends have delivered to the server to be sent to the 
