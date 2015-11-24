@@ -68,13 +68,16 @@ def send(fname=''):
         fname = raw_input('What file would you like me to send? ')
     while(fname != 'none'):
         print os.getcwd()
-        with open(fname, "rb") as f:
-            # finfo = os.stat(fname)                # Put a cap on filesize so the server 
-            #if(finfo.st_size > (1024^4)*5):      # doesn't fill quickly/get congested.
-            #    print("File " + fname + " is too big. Please send something 5 GB or smaller.\n")
-            #    break
-            for line in f:
-                clients.send(line)    # buffering out 1K at a time
-                if not line: break
-        print(fname + " sent!")
+        try:
+            with open(fname, "rb") as f:
+                # finfo = os.stat(fname)                # Put a cap on filesize so the server 
+                #if(finfo.st_size > (1024^4)*5):      # doesn't fill quickly/get congested.
+                #    print("File " + fname + " is too big. Please send something 5 GB or smaller.\n")
+                #    break
+                for line in f:
+                    clients.send(line)    # buffering out 1K at a time
+                    if not line: break
+            print(fname + " sent!")
+        except:
+            print("That file doesn't exist. Please select a different file.")
         fname = raw_input('What file would you like me to send? ')
