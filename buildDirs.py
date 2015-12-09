@@ -18,88 +18,17 @@ import os    # directory navigation
 import getpass    # We want to suppress user input, if they need to set their password.
 
 def makeWindirs():
-    '''builds PicSwap client's file structure on a Windows platform'''
+    '''builds PicSwap client's directory on a Windows platform'''
     try:    # try to find it first
         os.chdir("C:/picSwap_data")
     except OSError:    # If client's main directory is not here, make it.
         os.mkdir("C:/picSwap_data")
-
-    ## If any of the client's subdirectories are not here, make them. ##
-    try:
-        os.chdir("C:/picSwap_data/account")    # user info and friends' public keys
-    except OSError:
-        os.mkdir("C:/picSwap_data/account")
-    try:    
-        os.chdir("C:/picSwap_data/account/keys")
-    except OSError:
-        os.mkdir("C:/picSwap_data/account/keys")
-    os.chdir("C:\picSwap_data")
-    try:
-        os.chdir("C:/picSwap_data/temp")    # temporary files (simulates Snapchat's policy
-    except OSError:
-        os.mkdir("C:/picSwap_data/temp")    
-        
-    # Check for the user's account info and activity log.
-    os.chdir("C:/picSwap_data/account")
-    try:
-        usr = open("usr.INFO", 'r')
-    except IOError:
-        name = raw_input('Please choose a username: ')
-        pwd = getpass.getpass('Please choose a password: ')
-        usr = open("usr.INFO", 'w')
-        usr.write(name + "\n" + pwd)
-        usr.close()
-        ## Encrypt this with a private key generated for the user. ##    
-    try:
-        act = open("activity.LOG", 'r')
-    except IOError:
-        act = open("activity.LOG", 'w')
-        act.write(name + "\n\n------ ACCOUNT ACTIVITY ------\n")
-        act.close()
+        os.chdir("C:/picSwap_data")
     
 def makeGNUdirs():
-    '''builds PicSwap client's file structure on a Linux platform'''
+    '''builds PicSwap directory on a Linux platform'''
     try:    # try to find it first
-        os.chdir("~/picSwap_data")
+        os.chdir("C:/picSwap_data")
     except OSError:    # If client's main directory is not here, make it.
-        os.mkdir("~/picSwap_data")
-
-    ## If any of the client's subdirectories are not here, make them. ##
-    try:
-        os.chdir("~/picSwap_data/account")    # user info and friends' public keys
-    except OSError:
-        os.mkdir("~/picSwap_data/account")
-    try:    
-        os.chdir("~/picSwap_data/account/keys")
-    except OSError:
-        os.mkdir("~/picSwap_data/account/keys")
-    try:
-        os.chdir("~/picSwap_data/temp")    # temporary files (simulates Snapchat's policy
-    except OSError:
-        os.mkdir("~/picSwap_data/temp")            
-        
-    # Check for the user's account info and activity log.
-    os.chdir("~/picSwap_data/account")
-    ## Have the client write the following info to the server ##
-    ## instead once you get sockets working.                  ##
-    try:
-        usr = open("usr.INFO", 'r')
-    except IOError:
-        name = raw_input('Please choose a username: ')
-        pwd = getpass.getpass('Please choose a password: ')
-        usr = open("usr.INFO", 'w')
-        usr.write(name + "\n" + pwd)
-        usr.close()
-        ## Encrypt this with a private key generated for the user. ##    
-    try:
-        act = open("activity.LOG", 'r')
-    except IOError:
-        act = open("activity.LOG", 'w')
-        act.write(name + "\n\n------ ACCOUNT ACTIVITY ------\n")
-        act.close()
-    try:    # Easter eggs
-        mg = open("A_weapon_to_surpass_Metal_Gear.txt", 'r')
-    except IOError:
-        mg = open("A_weapon_to_surpass_Metal_Gear.txt", 'w')
-        mg.write("Engravings offer no tactical advantage whatsoever.")
-        mg.close()
+        os.mkdir("C:/picSwap_data")
+        os.chdir("C:/picSwap_data")
