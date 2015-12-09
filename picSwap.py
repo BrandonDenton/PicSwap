@@ -18,6 +18,7 @@
 # key.
 ######################################################################
 import socket
+import time    # delay for exit
 import os
 from sys import platform as Platform
 import getpass    # We want to suppress user input of their password.
@@ -34,40 +35,45 @@ elif(Platform == "linux" or Platform == "darwin"):
     bd.makeGNUdirs()
 
 print("Welcome to PicSwap!")
-if(Platform == "win32"):
-    os.chdir("C:\picSwap_data")
-print os.getcwd()
-## Now we must query the user for their username and password. ##
-name = raw_input('username: ')
-pwd = getpass.getpass('password: ')
-## THIS IS JUST A PLACEHOLDER. Have the client query the       ##
-## server for this verification after you get sockets working. ##
-
-## Navigate to the proper directory for pulling files to send. ##
-print("Checking directories...")
-
 ## Now that we've ensured we have a place to store needed   ##
 ## files for the client, it's time to set up a socket so    ##
-## the client can receive files from my server.             ##
-ch.serverConnect()
+## the client can receive files from my server. If          ##
+## serverConnect() returns -1, this means that the client   ##
+## could not connect to the server or otherwise create a    ##
+## socket on port 42069.                                    ##
+sendSock = ch.serverConnect()
     
-## IMPLEMENTATION ISSUE WITH UPDATER, LOOK UP I/O REQUIREMENTS!!! ##
-#ch.msgUpdate(clients)    # Always check for new files from friends at least once each time we run the client.
+if(sendSock == -1):    # could not create a socket to connect to the server
+    while(sendSock == -1):    # try to connect as many times as the user wants
+        tryAgain = raw_input("Would you like to try again? ")
+        if(tryAgain == "yes" or tryAgain == "y" or tryAgain == "y" or tryAgain == "Y"):
+            sendSock = ch.serverConnect()
+        else:    # close the client
+            print("Goodbye!")
+            time.sleep(3)
+            if(Platform == "win32"):
+                os.system('cls')
+            else:
+                os.system('clear')
+            exit(0)
 
-print("---------------------\n----- Main Menu -----\n---------------------\n")
-print("Type the following commands:\n  * send (Send a file.)\n  * update (Get files other users sent to you.)\n  * quit (Exit the program.)\n\n")
+print("-------------------------------\n----- Welcome to PicSwap! -----\n-------------------------------\n")    # MENU SCREEN HYPE
+key = ch.generateKey()    ## Generate a pseudrandom AES key for this session. ##
 while True:
-    option = raw_input('What would you like to do? ')
-    if(option == 'send'):
-        ch.send()
-    elif(option == 'update'):
-        ch.msgUpdate()
-    elif(option == 'quit'):
-        option = raw_input('Are you sure? y/n ')
-        if(option == 'y' or option == 'yes'):
-            break    # The user is done. Close the client application.
-    # Easter eggs lol #
-    elif(option == 'Afghanistan'):
-        ch.send("A_weapon_to_surpass_Metal_Gear.txt")
-    else:
-        print("I don't understand. Please pick something else.")
+    ch.send(sendSock, key)    # Apply the key above to each file sent IN THIS SESSION.
+
+#    elif(option == 'Afghanistan'):
+#        ch.send("A_weapon_to_surpass_Metal_Gear.txt")
+
+    # Ask the user if they want to send another file. ##
+    again = raw_input("Would you like to send another file? ")
+    if(again == "yes" or again == "y" or again == "y" or again == "Y"):
+        ch.send(sendSock, key)
+    else:    # Wait 3 seconds, clear the console, and exit the client.
+        print("Thank you for using PicSwap! Goodbye!")
+        time.sleep(3)
+        if(Platform == "win32"):
+            os.system('cls')
+        else:
+            os.system('clear')
+        exit(0)
