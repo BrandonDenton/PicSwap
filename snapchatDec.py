@@ -1,6 +1,5 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python
 # Snapchat Media Decryption and Renaming
-
 from Crypto import Cipher as c
 import os       # need target file's stat struct
 
@@ -10,8 +9,8 @@ stats = os.stat(oldname)        # generate stat struct for target file's size
 oldsize = stats.st_size
 iv = oldsize        # need to read up on generating this for encrypted files
 
-# may need to change key/cipher mode of operation with future patches
-crackit = c.AES.new('M02cnQ51Ji97vwT4', c.AES.MODE_ECB, iv)     
+# may need to change key/cipher mode of operation with future Snapchat patches
+crackit = c.AES.new('M02cnQ51Ji97vwT4', c.AES.MODE_ECB, iv)    # key in EVERY pre-2014 build!!!   
 
 newname = oldname.replace(".nomedia", "")
 decfile = open('new' + oldname + ext, 'w+')
