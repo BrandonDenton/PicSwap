@@ -16,8 +16,19 @@
 #######################################################################
 import os
 import socket
+from Crypto.Cipher import AES    # clientHelper is the only module that actually does encryption
+## The following modules help us generate PSEUDORANDOM alphanumeric AES keys. ##
+import string
+import random
+import struct
 from sys import platform as Platform
 #from msvcrt import getch    # Press any key to exit.
+
+def generateKey(size=32, chars=string.ascii_uppercase + string.digits + string.ascii_lowercase):
+    '''This function generates a pseudorandom AES key each time the client
+    runs. This key is applied to each file in its session with the server
+    until the user closes the client.'''
+    return ''.join(random.choice(chars) for _ in range(size))
 
 def serverConnect():
     ''' This function creates a socket for the client on a  
@@ -27,57 +38,64 @@ def serverConnect():
     function returns the socket object for the connection. '''
     print("Connecting to server...")
     host = "50.142.36.252"    # Just host it on Hydra because your router hates every port you want to use.
-    port = 24601    # This, like my server hostname, should never change.
-    clientr = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    try:
-        clientr.connect((host, port))
-    except:
-        print("Unable to connect to server. Sorry for the inconvenience!\nPress any key to exit.\n")
-        #exout = getch()
-        exit(1)
-
-def msgUpdate():
-    ''' This function, which executes at least once at runtime and 
-    also upon user request, queries the server for files that the 
-    user's friends have delivered to the server to be sent to the 
-    user. If any exist in the user's directory on the server, the 
-    server sends each file there to the user via the open socket. '''
-    host = "50.142.36.252"    # Just host it on Hydra because your router hates every port you want to use.
-    print("Looking for new messages...")
-    port = 24602    # This, like my server hostname, should never change.
-    try:
-        clientu = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        clientu.connect((host, port))
-    except:    # No new messages or server timeout
-        print("You're up to date!\n")
-    print("Done!\n\n")
-            
-def send(fname=''):
-    ''' This function sends a specified file via the socket already
-    opened to my server in 2K chunks. Don't make the server handle 
-    files larger than 5 GB.'''
-    host = "50.142.36.252"
     port = 42069    # This, like my server hostname, should never change.
-    clients = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sendSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
-        clients.connect((host, port))
-        return clientr    # client app will need this connection for file transfer
+        sendSock.connect((host, port))
+        return sendSock
     except:
-        print("Unable to connect to server")
-    if(fname == ''):
-        fname = raw_input('What file would you like me to send? ')
+        print("Unable to connect to server. Sorry for the inconvenience!")
+        return -1
+            
+def send(sendSock, key):
+    ''' This function sends a specified file via the socket already
+    opened to my server on port 42069. Don't make the server handle 
+    files larger than 5 GB.'''
+
+    fname = raw_input('What file would you like me to send? ')
+    a = 0    # flag for checking to see if the file the user wants to encrypt is in picSwap's directory
     while(fname != 'none'):
+        sendSock.send("1")
         print os.getcwd()
         try:
-            with open(fname, "rb") as f:
-                # finfo = os.stat(fname)                # Put a cap on filesize so the server 
-                #if(finfo.st_size > (1024^4)*5):      # doesn't fill quickly/get congested.
-                #    print("File " + fname + " is too big. Please send something 5 GB or smaller.\n")
-                #    break
-                for line in f:
-                    clients.send(line)    # buffering out 1K at a time
-                    if not line: break
-            print(fname + " sent!")
+            ftest = open(fname, "rb")
+            ftest.close()
         except:
-            print("That file doesn't exist. Please select a different file.")
-        fname = raw_input('What file would you like me to send? ')
+            print("That file doesn't exist. Please select a different file.")  
+            a = -1
+            fname = "none"
+        
+        if(a != -1):
+            sendSock.send(key)    # Send the AES key for this session's files to the server.
+            IV = 16 * '\x00'           # Initialization vector
+            mode = AES.MODE_CBC        # cipher block chaining
+            encryptor = AES.new(key, mode, IV=IV)    # Crypto does the heavy lifting!
+            outName = "ENC_" + fname    # name of file to send
+            fsize = os.path.getsize(fname)    # for encrypted file to send
+            
+            with open(fname, "rb") as f:
+                with open(outName, 'wb') as out:
+                    # finfo = os.stat(fname)              # Put a cap on filesize so the server 
+                    #if(finfo.st_size > (1024^4)*5):      # doesn't fill quickly/get congested.
+                    #    print("File " + fname + " is too big. Please send something 5 GB or smaller.\n")
+                    #    break
+                    ## header for encrypted file ##
+                    out.write(IV)
+                    out.write("\n")
+                    
+                    while True:
+                        chunk = f.read(1024)    # buffer out 1024 bytes to write to out
+                        if(len(chunk) == 0):
+                            break
+                        elif(len(chunk) % 16 != 0):
+                            chunk += ' ' * (16 - len(chunk) % 16)
+                        
+                        ## Now write the buffered contents of the file to out. ##
+                        out.write(encryptor.encrypt(chunk))
+                outf = open(outName, 'rb')
+                outData = outf.read()
+                outf.close()
+                sendSock.send(outData)              
+            print(fname + " sent!")
+        fname = raw_input('What file would you like me to send? ')    # Ask for another file to send.
+    sendSock.send("0")    # We're done sending files. 
