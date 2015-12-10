@@ -1,4 +1,4 @@
-#!usr/bin/env python3
+#!usr/bin/env python
 ########################################################################
 # Stripped-down Snapchat Clone Server
 # AUTHOR: Brandon Denton
