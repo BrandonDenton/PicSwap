@@ -12,7 +12,7 @@ def connectAndScrape():
     db = client['D2Discovery']
     twitchcoll = db.twitchstreams
 
-    print(twitchstreams.find_one({"game": "League of Legends"})
+    print(twitchstreams.find_one({"streams": ["game": "League of Legends"]})
 
 
 if __name__ == '__main__':
