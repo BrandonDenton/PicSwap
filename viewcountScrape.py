@@ -6,14 +6,18 @@ import threading
 import sys
 import pymongo
 
-def connectAndScrape():
+def connectAndScrape(name):
     ## Connection stuff
     client = pymongo.MongoClient (host='da1.eecs.utk.edu')
     db = client['D2Discovery']
-    twitchcoll = db.twitchstreams
 
-    print(twitchstreams.find_one({"streams": ["game": "League of Legends"]})
+    print(db.twitchstreams.find({"streams": {"game": gameName}})
 
+def genQueries():
+    gamefile = open("gamefile.txt", "r")
+    for name in gamefile:
+        connectAndScrape(name)
+    gamefile.close()
 
 if __name__ == '__main__':
-    connectAndScrape()
+    genQueries()
