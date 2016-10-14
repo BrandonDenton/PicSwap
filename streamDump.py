@@ -6,21 +6,19 @@ import threading
 import sys
 import pymongo
 
-clientid = "lje4lkmnfa7m2h2t0w3118sabdtcec5"
-clients = "28cj2hjncgfk7lfchxo8lfahq3wy4cm"
-twitchreq = "https://api.twitch.tv/kraken/streams/?game"
-authstuff = "response_type=token&client_id=" + clientid + "&redirect_uri=http://localhost:65011"
-
-def connectAndRecord():
+def connectAndRecord(clientid, clients):
    client = pymongo.MongoClient (host='da1.eecs.utk.edu')
    db = client ['D2Discovery']
-   runOnInterval(db)
+   runOnInterval(db, clientid, clients)
 
-def runOnInterval(db):
+def runOnInterval(db, clientid, clients):
     threading.Timer(1800.0, runOnInterval).start ()
-    grabStreamInfo(db)
+    grabStreamInfo(db, clientid, clients)
 
-def grabStreamInfo(db):
+def grabStreamInfo(db, clientid, clients):
+   twitchreq = "https://api.twitch.tv/kraken/streams/?game"
+   authstuff = "response_type=token&client_id=" + clientid + "&redirect_uri=http://localhost:65011"
+
     ## Open the config file and build game queries from its contents. ##
     gamelist = []   
     gamefile = open("gamelist.txt", 'r')
@@ -42,4 +40,4 @@ def grabStreamInfo(db):
         db.twitchstreams.insert_one(gameReq.json())
         
 if __name__ == '__main__':
-    connectAndRecord()
+    connectAndRecord(clientid, clients)
