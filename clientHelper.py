@@ -37,7 +37,7 @@ def serverConnect():
     user is asked to exit the program. Otherwise, the 
     function returns the socket object for the connection. '''
     print("Connecting to server...")
-    host = "50.142.36.252"    # Just host it on Hydra because your router hates every port you want to use.
+    host = "succ"    # Just host it on Hydra because your router hates every port you want to use.
     port = 42069    # This, like my server hostname, should never change.
     sendSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
